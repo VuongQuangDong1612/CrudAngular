@@ -3,16 +3,22 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { ListEmployeesComponent } from './list-employees/list-employees.component';
+import { HttpClientModule  } from '@angular/common/http';
+import { EmployeeService } from './service/employee.service';
 
+ 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ListEmployeesComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule 
   ],
-  providers: [],
+  providers: [EmployeeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
