@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="row">
+        <div class="col-6 col-md-4">
+          <select class="form-control" style="margin: 10px" [formControl]="searchByCategoryControl" name="searchByCategory">
+              <option value="defaultvalue">Select category</option>
+              <option *ngFor="let category of listCategories" [value]="category.id">{{category.name}}</option>
+          </select>
+        </div> 
+        <div class="col-7 col-md-4" style="margin: 10px">
+            <button type="button" class="btn btn-info" (click)="getListProductBycategory()">Search</button>
+        </div> 
+        <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>NAME</th>
+                <th>AMOUNT</th>
+                <th>PRICE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of list_products">
+                <td><a [routerLink]="['/getProduct', product.id ]" class="btn btn-primary active" role="button" routerLinkActive="active">{{product.id}}</a></td>
+                <td>{{product.name}}</td>
+                <td>{{product.amount}}</td>
+                <td>{{product.price | number}} </td>
+              </tr>
+            </tbody>
+          </table>
+    </div>       
+</div>

@@ -1,0 +1,39 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 col-md-offset-2">
+            <form [formGroup] = "detailProductForm">
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Name</label>
+                    <input type="text" class="form-control" id="id" required  formControlName="id"  [disabled] = true>
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Name</label>
+                    <input type="text" class="form-control" id="name" required formControlName="name">
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Amount</label>
+                    <input type="text" class="form-control" id="amount" required  formControlName="amount">
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Price</label>
+                    <input type="text" class="form-control" id="price" required formControlName="price" [value]="detailProductForm.get('price').value | number">
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Origin</label>
+                    <input type="text" class="form-control" id="origin" required formControlName="origin">
+                </div>
+            
+                <div class="form-group">
+                    <label class="control-label" for="textarea">DateofBirth</label>
+                    <input type="text" class="form-control" id="dateofbirth" required formControlName="dateofbirth">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
