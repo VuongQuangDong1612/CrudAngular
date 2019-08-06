@@ -1,10 +1,10 @@
 <div class="container">
     <div class="row">
         <div class="col-md-9 col-md-offset-2">
-            <form [formGroup] = "detailProductForm">
+            <form [formGroup] = "detailProductForm" (ngSubmit)="saveUpdateProduct()">
                 <div class="form-group">
-                    <label class="control-label" for="textarea">Name</label>
-                    <input type="text" class="form-control" id="id" required  formControlName="id"  [disabled] = true>
+                    <label class="control-label" for="textarea" [hidden] = "isInputIdHidden">Id</label>
+                    <input type="text" class="form-control" id="id" required  formControlName="id"  [disabled] = "isInputIdDisable"  [hidden] = "isInputIdHidden">
                 </div>
             
                 <div class="form-group">
@@ -18,10 +18,11 @@
                 </div>
             
                 <div class="form-group">
-                    <label class="control-label" for="textarea">Price</label>
-                    <input type="text" class="form-control" id="price" required formControlName="price" [value]="detailProductForm.get('price').value | number">
+                    <label class="control-label" for="textarea">Price</label><br/>
+                    <input type="number"  id="price" required formControlName="price">
+                    <label id="lbl_price"  for="price">{{ detailProductForm.get('price').value | number }}</label>
                 </div>
-            
+        
                 <div class="form-group">
                     <label class="control-label" for="textarea">Origin</label>
                     <input type="text" class="form-control" id="origin" required formControlName="origin">
@@ -29,8 +30,17 @@
             
                 <div class="form-group">
                     <label class="control-label" for="textarea">DateofBirth</label>
-                    <input type="text" class="form-control" id="dateofbirth" required formControlName="dateofbirth">
+                    <input type="text" class="form-control" id="dateofbirth" required formControlName="dateOfBirth">
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label" for="textarea">Category</label>
+                    <select class="form-control" id="category" formControlName="category" name="category">
+                        <option value="" selected></option>
+                        <option *ngFor="let category of listCategories" [ngValue]="category.id"> {{ category.name }}</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-success" [hidden]="isButtonHidden" [disabled]="isButtonHidden" >Update</button>
             </form>
         </div>
     </div>

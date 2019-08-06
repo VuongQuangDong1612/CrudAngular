@@ -8,7 +8,7 @@ export class Product {
   amount: number;
   price:number;
   dateOfBirth : Date;
-  category : Category;
+  categoryEntity:any;
 
   constructor() { }
 
