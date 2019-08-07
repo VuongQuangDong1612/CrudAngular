@@ -40,6 +40,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnInit() { 
+    debugger;
     this.getListCategories();
 
     this.idParam = +this.activatedRoute.snapshot.paramMap.get("id");
@@ -67,7 +68,7 @@ export class ProductDetailComponent implements OnInit {
        
  
 
-    if(this.idParam != null){
+    if(this.idParam != null && this.idParam != 0){
       this.getProduct(this.idParam);
     }
   }

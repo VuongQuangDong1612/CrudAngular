@@ -14,8 +14,8 @@ export class ProductService {
     constructor(private _http : HttpClient){
     }
 
-    getProductList(): Observable<any> {
-       return this._http.get(`${this.baseUrl}/getListProducts`);
+    getProductList(page : number , size : number ): Observable<any> {
+       return this._http.get(`${this.baseUrl}/getListProducts/?page=`+page+`&size=`+size);
     }
 
     getProduct(id : number): Observable<any> {

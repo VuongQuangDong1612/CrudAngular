@@ -1,3 +1,4 @@
+import { TestBed } from '@angular/core/testing';
 import { Component, OnInit } from '@angular/core';
 import { Product } from '../../entity/product/product.component';
 import { ProductService } from '../../service/product.service';
@@ -8,6 +9,7 @@ import { Router } from '@angular/router';
 
 import { MatDialog } from '@angular/material';
 import { ConfirmationDeleteDialogComponent } from '../../popup/confirmation-delete-dialog/confirmation-delete-dialog.component'
+import { IfStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-product-list',
@@ -22,6 +24,13 @@ export class ProductListComponent implements OnInit {
   searchByCategoryControl = new FormControl();
   categoryId : number;
   buttonDisabled = true;
+
+   private page :number = 0;
+   private pageArray : Array<number>;
+   private sizePage : number = 2;
+   private totalPage : number;
+   disableClickPage : boolean;
+
   constructor(private productService : ProductService, private categoryService : CategoryService, private router: Router , public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -39,12 +48,14 @@ export class ProductListComponent implements OnInit {
           this.categoryId = +valueChange;
         }
       })
-     
+
   }
 
   getListProduct(){
-    this.productService.getProductList().subscribe((response : any ) =>{
-      this.list_products = response;
+    this.productService.getProductList(this.page, this.sizePage).subscribe((response : any ) =>{
+      this.list_products = response.content;
+      this.pageArray = new Array(response.totalPages);
+      this.totalPage = response.totalPages-1;
     })
   }
 
@@ -76,6 +87,24 @@ export class ProductListComponent implements OnInit {
     this.router.navigate(['product/create']);
   }
 
+  setPage(i, event:any ) {
+    event.preventDefault();
+    this.page = i;
+    this.getListProduct();
+  }
+
+  clickNextPage() {
+    this.page = this.page + 1;
+    this.getListProduct();
+  }
+
+  clickPrePage(){
+    if(this.page > 0){
+      this.page = this.page - 1;
+      this.getListProduct();
+    }
+  }
+
   confirmDialog(idProduct : number): void {
     const message = `Are you sure you want to do this?`;
 
@@ -89,13 +118,9 @@ export class ProductListComponent implements OnInit {
         this.productService.removeProduct(idProduct).subscribe (
           success => {
             alert("Delete Done");
-            this.router.navigate(['getListProducts']);
-          },
-          error => {
-            alert(123);
-            alert("Delete Failed");
-            this.router.navigate(['getListProducts']);
-          }
+            this.list_products = [];
+            this.getListProduct();
+          }, error => console.log(error)
         )
       }
     });

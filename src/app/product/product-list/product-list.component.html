@@ -37,5 +37,16 @@
               </tr>
             </tbody>
           </table>
+          <a class="btn btn-outline" [class.disabled]="page==0" >
+            <i class="material-icons" (click)="clickPrePage()">Pre</i>
+          </a>
+          <ul class = "nav nav-pills">
+            <li class="nac-item" *ngFor="let p of pageArray ; let i=index">
+              <a class="nav-link" href="" (click)="setPage(i,$event)" [ngClass]="{'active':i==page}">{{i+1}}</a>
+            </li>
+          </ul>
+          <a class="btn btn-outline" [class.disabled]="page==totalPage">
+          <i class="material-icons" (click)="clickNextPage()">Next</i>
+        </a>
     </div>       
 </div>

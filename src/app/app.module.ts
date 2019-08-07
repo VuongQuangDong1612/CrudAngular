@@ -11,6 +11,7 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpErrorInterceptor } from './service/errorHandler.service';
 import { ConfirmationDeleteDialogComponent } from './popup/confirmation-delete-dialog/confirmation-delete-dialog.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 import { CustomMaterialModule } from './module/app.customMaterialModule';
 import { FormatNumberDirective } from './service/formatNumber.directive';
@@ -31,8 +32,7 @@ import { FormatNumberDirective } from './service/formatNumber.directive';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-
-
+    NgxPaginationModule
   ],
   providers: [
     {
@@ -41,8 +41,7 @@ import { FormatNumberDirective } from './service/formatNumber.directive';
       multi: true,
     },
     ProductService,
-    CategoryService,
-    {provide: LOCALE_ID, useValue: 'en-US'}
+    CategoryService
   ],
   entryComponents: [ConfirmationDeleteDialogComponent]
   ,
