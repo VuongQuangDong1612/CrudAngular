@@ -19,8 +19,11 @@ export class ProductService {
     }
 
     getProduct(id : number): Observable<any> {
-        console.log("SERVICE" + id);
         return this._http.get(`${this.baseUrl}/getProduct/${id}`);
+    }
+
+    getImageProduct(id: number) {
+        return this._http.get(`${this.baseUrl}/getImageProduct/${id}`);
     }
 
     getProductListByCategory(id: number):  Observable<any> {
@@ -33,6 +36,14 @@ export class ProductService {
 
     removeProduct(id : number) {
         return this._http.delete(`${this.baseUrl}/deleteProduct/${id}`);
+    }
+
+    uploadImg(totalFormData){
+        return this._http.post(`${this.baseUrl}/uploadImgProduct`, totalFormData , {
+            // reportProgress: true,
+            // observe : 'events',
+            responseType: 'text'
+        })
     }
 
 }

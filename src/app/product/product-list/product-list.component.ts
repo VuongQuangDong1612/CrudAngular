@@ -53,6 +53,7 @@ export class ProductListComponent implements OnInit {
 
   getListProduct(){
     this.productService.getProductList(this.page, this.sizePage).subscribe((response : any ) =>{
+      console.log(response.content);
       this.list_products = response.content;
       this.pageArray = new Array(response.totalPages);
       this.totalPage = response.totalPages-1;
@@ -114,6 +115,7 @@ export class ProductListComponent implements OnInit {
     });
  
     dialogRef.afterClosed().subscribe(dialogResult => {
+      //if click ok 
       if(dialogResult) {
         this.productService.removeProduct(idProduct).subscribe (
           success => {

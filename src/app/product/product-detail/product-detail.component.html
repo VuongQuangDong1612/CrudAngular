@@ -42,7 +42,22 @@
                 </div>
                 <button type="submit" class="btn btn-success" [hidden]="isButtonHidden" [disabled]="isButtonHidden" >Update</button>
             </form>
+            <form [formGroup] = "profileForm" (ngSubmit)="onSubmitImg()">
+                <div class="form-group">
+                    <input type="text" name="idproduct" hidden="true"/>
+                </div>
+                <div class="form-group">
+                  <input type="file" name="profile" (change)="onSelectedFile($event)"  multiple/>
+                </div>
+                <div class="form-group">
+                  <button type="submit" class="btn btn-success">Upload</button>
+                </div>
+            </form>
+            <div  *ngFor="let url of listImgBase64" style="float:left ; padding-left: 65px" >
+                <img [src]="url" alt="" width="200px" height="200px">
+            </div>
         </div>
+        
     </div>
 </div>
 

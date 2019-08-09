@@ -7,6 +7,7 @@ import { mergeMap, catchError } from 'rxjs/operators';
 import { CategoryService } from 'src/app/service/category.service';
 import { Category } from 'src/app/entity/category/category.component';
 import { error } from 'protractor';
+import { HttpEventType } from '@angular/common/http';
 
 
 @Component({
@@ -27,6 +28,14 @@ export class ProductDetailComponent implements OnInit {
   isInputIdDisable : boolean;
   isInputIdHidden : boolean;
 
+  imgurl : string;
+  listImgBase64 : string[] = new Array();
+  listImgResponse : string[];
+
+  totalFileUpload : number;
+  files : any;
+  profileForm: FormGroup;
+
   constructor(private productService : ProductService , private activatedRoute : ActivatedRoute , private formBuilder : FormBuilder, private categoryService : CategoryService ,  private router: Router){
       this.detailProductForm = this.formBuilder.group({
         id :[{value :'' , disabled : true} ],
@@ -37,10 +46,14 @@ export class ProductDetailComponent implements OnInit {
         dateOfBirth :[""],
         category : [""]
       })
+
+      this.profileForm = this.formBuilder.group({
+        profile : [''],
+        idproduct: ['']
+      })
   }
 
   ngOnInit() { 
-    debugger;
     this.getListCategories();
 
     this.idParam = +this.activatedRoute.snapshot.paramMap.get("id");
@@ -52,6 +65,7 @@ export class ProductDetailComponent implements OnInit {
         this.isButtonHidden = true;
         this.isInputIdDisable = true;
         this.isInputIdHidden = false;
+        this.getImage();
         break;
       case 'update':
         this.isButtonHidden = false;
@@ -66,7 +80,6 @@ export class ProductDetailComponent implements OnInit {
         
     }
        
- 
 
     if(this.idParam != null && this.idParam != 0){
       this.getProduct(this.idParam);
@@ -86,6 +99,18 @@ export class ProductDetailComponent implements OnInit {
     })
   }
 
+  getImage(){
+    this.listImgBase64 = [];
+    this.productService.getImageProduct(this.idParam ).subscribe((response : any) =>{
+      this.listImgResponse  = response;
+      for(let i = 0; i< response.length; i++){
+        this.imgurl = 'data:image/JPEG;base64,' + response[i];
+        this.listImgBase64.push(this.imgurl);
+      }
+      // console.error(this.listImgBase64)
+    })
+  }
+
   saveUpdateProduct(){
     this.product = <Product> this.detailProductForm.getRawValue();
     this.product.categoryEntity = this.listCategories.find(v => v.id === this.detailProductForm.get('category').value);
@@ -102,4 +127,38 @@ export class ProductDetailComponent implements OnInit {
       }
     );
   } 
+
+  onSelectedFile(event) {
+    if (event.target.files.length > 0) {
+      this.files = event.target.files;
+      // console.log(event.target.files.length);
+      // console.log(this.files[0]);
+      this.totalFileUpload = event.target.files.length;                             
+      // this.profileForm.get('profile').setValue(files);
+    }
+  }
+
+  onSubmitImg() {
+    console.log(this.files);
+    console.log(this.files[0].constructor.name);
+    // let totalFormData : FormData[] = [];
+
+    // const formData = new FormData();
+    // formData.append('profile', this.files[0]);
+    // formData.append('idproduct', this.detailProductForm.get('id').value);
+
+    const formData = new FormData();
+    for(let i = 0; i < this.totalFileUpload ; i++){
+      formData.append('profile', this.files[i]);
+    }
+    formData.append('idproduct', this.detailProductForm.get('id').value);
+    this.productService.uploadImg(formData).subscribe(
+      res => {
+          console.log(res);
+          this.listImgBase64 = [];
+          this.getImage();
+      },
+      err => console.log(err)
+    );
+  }
 }
